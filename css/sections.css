@@ -1,0 +1,153 @@
+/* Homepage sections: services, testimonials, news, contact CTA */
+
+.section-header--wide-lede {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.78fr);
+}
+
+/* ---------- Services ---------- */
+
+.services {
+  background: var(--bg-white);
+}
+
+.services__grid {
+  margin-top: 3rem;
+}
+
+/* ---------- Testimonials ---------- */
+
+.testimonials {
+  background: linear-gradient(180deg, var(--bg-testimonials-start) 0%, var(--bg-testimonials-end) 100%);
+  border-top: 1px solid #DDE4F2;
+}
+
+.testimonials__grid {
+  margin-top: 2.875rem;
+}
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem 1.625rem 1.625rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-white);
+  border: 1px solid var(--border-testimonial);
+  box-shadow: var(--shadow-testimonial);
+  animation: df-fade-up 620ms var(--ease-out-soft) both;
+}
+
+.testimonial-card__label {
+  margin: 0 0 0.875rem;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #9AA6C0;
+}
+
+.testimonial-card__quote {
+  margin: 0 0 1.25rem;
+  font-size: var(--text-lg);
+  line-height: 1.62;
+  color: var(--bg-dark-1);
+  text-wrap: pretty;
+  flex: 1;
+}
+
+.testimonial-card__name {
+  margin: 0;
+  font-size: var(--text-base-alt);
+  font-weight: 600;
+}
+
+.testimonial-card__role {
+  margin: 0.1875rem 0 0;
+  font-size: var(--text-sm-alt);
+  color: var(--color-body);
+}
+
+.testimonials__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-top: 1.625rem;
+}
+
+.testimonials__controls .btn-group {
+  gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .testimonials__controls {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- News ---------- */
+
+.news {
+  background: var(--bg-white);
+}
+
+.news__head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+
+.news__grid {
+  margin-top: 2.625rem;
+}
+
+/* ---------- Contact CTA band ---------- */
+
+.contact-cta {
+  background: linear-gradient(120deg, var(--bg-contact-1) 0%, var(--bg-contact-2) 52%, var(--bg-contact-3) 100%);
+  color: var(--color-white);
+}
+
+.contact-cta__grid {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .contact-cta__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-cta__ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-cta__ctas .btn {
+    justify-content: center;
+  }
+}
+
+.contact-cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.625rem);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-tighter);
+  font-weight: 600;
+  margin: 0 0 0.8125rem;
+  text-wrap: balance;
+}
+
+.contact-cta__body {
+  margin: 0;
+  font-size: var(--text-xl-alt);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 37.5rem;
+  text-wrap: pretty;
+}

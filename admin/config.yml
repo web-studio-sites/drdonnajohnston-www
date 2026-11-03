@@ -1,0 +1,323 @@
+# Sveltia CMS config: the content types editors see and the fields in each
+# form. Field names must match src/schemas.ts. See README.md.
+
+backend:
+  name: github
+  repo: simonclay/drdonnajohnston-source # Set per site: the site's private source repo
+  branch: main
+  base_url: https://sveltia-cms-auth.cms-tools.workers.dev # GitHub login helper (Cloudflare Worker, shared by all sites)
+
+media_folder: public/assets/images/uploads
+public_folder: /assets/images/uploads
+
+# Uploaded photos are converted to WebP and capped at 1920px, and file names
+# are cleaned up (no spaces), so a straight-from-camera or stock image doesn't
+# add megabytes to every page.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1920
+          height: 1920
+
+collections:
+  - name: pages
+    label: Pages
+    icon: description
+    files:
+      - name: home
+        label: Homepage
+        file: src/content/pages/home.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: heroImage, label: "Banner: photo", widget: image }
+          - { name: heroTitle, label: "Banner: heading in the orange box", widget: text }
+          - { name: introTitle, label: "Teal band: heading", widget: string }
+          - { name: introBody, label: "Teal band: text", widget: text, hint: "Leave a blank line between paragraphs." }
+          - { name: aboutImage, label: "Squares: photo (top left)", widget: image }
+          - { name: aboutImageAlt, label: "Squares: photo description", widget: string, hint: "For people using screen readers." }
+          - { name: aboutTitle, label: "Squares: About heading (teal square)", widget: string }
+          - { name: aboutBody, label: "Squares: About text", widget: text, hint: "Leave a blank line between paragraphs." }
+          - { name: howTitle, label: "Squares: How I work heading (pale square)", widget: string }
+          - { name: howBody, label: "Squares: How I work text", widget: text, hint: "Leave a blank line between paragraphs." }
+          - { name: howImage, label: "Squares: photo (bottom right)", widget: image }
+          - { name: howImageAlt, label: "Squares: second photo description", widget: string }
+          - { name: servicesTitle, label: "Service areas: heading", widget: string, hint: "The cards themselves come from Pages > Service Areas and the Services list." }
+          - { name: servicesLede, label: "Service areas: intro", widget: text }
+          - { name: showArticles, label: "Articles: show on the homepage", widget: boolean, default: false, hint: "Off until there are articles to show." }
+          - { name: articlesTitle, label: "Articles: heading", widget: string }
+          - { name: findOutMoreTitle, label: "Heading above the footer tiles", widget: string }
+
+      - name: about
+        label: About me
+        file: src/content/pages/about.json
+        fields: &textPageFields
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: headerTitle, label: "Banner: title in the orange box", widget: string }
+          - { name: headerImage, label: "Banner: photo", widget: image }
+          - { name: headerPosition, label: "Banner: which part of the photo to keep in view", widget: select, default: center, options: [center, "left center", "right center", "center top", "center bottom", "85% center"] }
+          - name: sections
+            label: Sections
+            label_singular: section
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: body, label: Text, widget: text, hint: "Leave a blank line between paragraphs." }
+
+      - name: howIWork
+        label: How I work
+        file: src/content/pages/how-i-work.json
+        fields: *textPageFields
+
+      - name: serviceAreas
+        label: Service Areas
+        file: src/content/pages/service-areas.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: headerTitle, label: "Banner: title in the orange box", widget: string }
+          - { name: headerImage, label: "Banner: photo", widget: image }
+          - { name: headerPosition, label: "Banner: which part of the photo to keep in view", widget: select, default: center, options: [center, "left center", "right center", "center top", "center bottom", "85% center"] }
+          - { name: title, label: "Heading above the cards", widget: string }
+          - name: extraServices
+            label: "Services without their own page"
+            label_singular: service
+            widget: list
+            summary: "{{title}}"
+            hint: "Shown as cards before the services that have pages (those come from the Services list)."
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: body, label: Text, widget: text }
+          - { name: ctaTitle, label: "Closing band: heading", widget: string }
+          - { name: ctaBody, label: "Closing band: text", widget: text }
+          - { name: ctaButtonLabel, label: "Closing band: button text", widget: string, hint: "The button goes to the Contact page." }
+
+      - name: contact
+        label: Contact
+        file: src/content/pages/contact.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: headerTitle, label: "Banner: title in the orange box", widget: string }
+          - { name: headerImage, label: "Banner: photo", widget: image }
+          - { name: headerPosition, label: "Banner: which part of the photo to keep in view", widget: select, default: center, options: [center, "left center", "right center", "center top", "center bottom", "85% center"] }
+          - { name: title, label: Heading, widget: string }
+          - { name: phoneNumber, label: "Phone number", widget: string, required: false, hint: "As it should appear, e.g. 07700 900123. Leave empty to hide. Also shown in the footer." }
+          - { name: email, label: "Email address", widget: string, required: false, hint: "Also shown in the footer." }
+          - { name: linkedin, label: "LinkedIn address", widget: string, required: false, hint: "Full address. Leave empty to hide the icon." }
+          - { name: facebook, label: "Facebook address", widget: string, required: false }
+          - { name: instagram, label: "Instagram address", widget: string, required: false }
+
+  - name: services
+    label: Services
+    label_singular: Service
+    icon: work
+    folder: src/content/services
+    create: true
+    format: frontmatter
+    extension: md
+    slug: "{{slug}}"
+    # The Reorder button in the list sets each entry's `order` (no form field needed).
+    reorder: true
+    summary: "{{menuTitle}}"
+    fields:
+      - { name: title, label: "Full title (card heading)", widget: string }
+      - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+      - { name: headerTitle, label: "Banner: title in the orange box", widget: string }
+      - { name: headerImage, label: "Banner: photo", widget: image }
+      - { name: headerPosition, label: "Banner: which part of the photo to keep in view", widget: select, default: center, options: [center, "left center", "right center", "center top", "center bottom", "85% center"] }
+      - { name: menuTitle, label: "Menu: short title", widget: string }
+      - { name: menuDescription, label: "Menu: one line under the title", widget: string }
+      - { name: cardBody, label: "Card text (Service Areas page and homepage)", widget: text }
+      - name: lead
+        label: "Opening section"
+        widget: object
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: lede, label: "Larger opening line", widget: text }
+          - { name: body, label: Text, widget: text, hint: "Leave a blank line between paragraphs." }
+          - { name: image, label: Photo, widget: image }
+          - { name: imageAlt, label: "Photo description", widget: string }
+          - { name: imageSide, label: "Photo side", widget: select, default: right, options: [left, right] }
+      - name: audience
+        label: "Who it is for (cards)"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: intro, label: Intro, widget: text, hint: "Leave a blank line between paragraphs." }
+          - { name: items, label: Cards, label_singular: card, widget: list, field: { name: item, label: Card, widget: string } }
+          - { name: tone, label: "Card colour", widget: select, default: grey, options: [{ label: "Grey", value: grey }, { label: "Grey, orange edge", value: grey-orange }, { label: "Peach", value: peach }, { label: "Pale teal", value: teal }] }
+      - name: pullQuote
+        label: "Pull-quote band"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: text, label: Quote, widget: text }
+          - { name: tone, label: Colour, widget: select, default: orange, options: [orange, teal] }
+      - name: bandOne
+        label: "Band below the quote"
+        widget: object
+        required: false
+        collapsed: true
+        hint: "Text blocks, then numbered steps, a ruled note, cards and further text, in that order. Leave any empty."
+        fields:
+          - { name: tone, label: "Background", widget: select, default: grey, options: [white, grey, teal, peach] }
+          - name: blocks
+            label: "Text blocks (two columns)"
+            label_singular: block
+            widget: list
+            required: false
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: body, label: Text, widget: text, hint: "Leave a blank line between paragraphs." }
+          - name: steps
+            label: "Numbered steps"
+            widget: object
+            required: false
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: items, label: Steps, label_singular: step, widget: list, field: { name: item, label: Step, widget: text } }
+          - { name: note, label: "Note (with an orange rule down the side)", widget: text, required: false, hint: "Leave a blank line between paragraphs." }
+          - name: cards
+            label: Cards
+            widget: object
+            required: false
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: intro, label: Intro, widget: text, hint: "Leave a blank line between paragraphs." }
+              - { name: items, label: Cards, label_singular: card, widget: list, field: { name: item, label: Card, widget: string } }
+              - { name: tone, label: "Card colour", widget: select, default: teal, options: [{ label: "Grey", value: grey }, { label: "Grey, orange edge", value: grey-orange }, { label: "Peach", value: peach }, { label: "Pale teal", value: teal }] }
+          - name: after
+            label: "Text blocks after the cards (two columns)"
+            label_singular: block
+            widget: list
+            required: false
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: body, label: Text, widget: text, hint: "Leave a blank line between paragraphs." }
+      - name: outcomes
+        label: "Outcomes (peach cards)"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: items, label: Cards, label_singular: card, widget: list, field: { name: item, label: Card, widget: string } }
+          - { name: closing, label: "Closing line", widget: text, required: false }
+      - name: themes
+        label: "Themes (ruled list)"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: items, label: Themes, label_singular: theme, widget: list, field: { name: item, label: Theme, widget: string } }
+      - name: formats
+        label: "Formats (teal cards)"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: items, label: Cards, label_singular: card, widget: list, field: { name: item, label: Card, widget: string } }
+      - name: reflections
+        label: "Client reflections band"
+        widget: object
+        required: false
+        collapsed: true
+        hint: "The reflections themselves are in the Client reflections list, each set to this service."
+        fields:
+          - { name: tone, label: Background, widget: select, default: teal, options: [white, grey, teal, peach] }
+          - name: blocks
+            label: "Text blocks above the reflections (side by side)"
+            label_singular: block
+            widget: list
+            required: false
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Heading, widget: string }
+              - { name: body, label: Text, widget: text, hint: "Leave a blank line between paragraphs." }
+          - { name: title, label: Heading, widget: string }
+          - { name: intro, label: Intro, widget: text }
+      - name: cta
+        label: "Closing band"
+        widget: object
+        collapsed: true
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: strapline, label: "Larger line", widget: string, required: false }
+          - { name: body, label: Text, widget: text }
+          - { name: buttonLabel, label: "Button text", widget: string, hint: "The button goes to the Contact page." }
+
+  - name: testimonials
+    label: Client reflections
+    label_singular: Reflection
+    icon: format_quote
+    folder: src/content/testimonials
+    create: true
+    format: frontmatter
+    extension: md
+    slug: "{{slug}}"
+    reorder: true
+    summary: "{{role}}: {{quote}}"
+    fields:
+      - { name: published, label: "Show on website", widget: boolean, default: true }
+      - name: service
+        label: "Show on"
+        widget: relation
+        collection: services
+        value_field: "{{slug}}"
+        search_fields: [menuTitle, title]
+        display_fields: [menuTitle]
+      - { name: quote, label: Quote, widget: text, hint: "Without quotation marks; they are added on the page." }
+      - { name: role, label: "Who said it (no names)", widget: string, hint: "e.g. Board-Level Leader" }
+
+  - name: legal
+    label: Legal
+    icon: gavel
+    label_singular: Legal page
+    folder: src/content/legal
+    create: true
+    format: frontmatter
+    extension: md
+    # Editable: the pencil next to the title renames the page's web address.
+    # Once a site is live, changing it breaks links to the old address.
+    slug:
+      template: "{{slug}}"
+      editable: true
+    reorder: true
+    fields:
+      - { name: title, label: Title, widget: string, hint: "Also used as the footer link text" }
+      - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+      - { name: body, label: "Policy text", widget: markdown }
+
+  - name: settings
+    label: Site settings
+    icon: settings
+    files:
+      - name: site
+        label: Site settings
+        file: src/content/settings/site.json
+        fields:
+          - name: footerScripts
+            label: "Footer scripts"
+            label_singular: "script"
+            widget: list
+            required: false
+            summary: "{{name}}"
+            hint: "Extra code that runs on every page of the website, such as a feedback widget, live chat or a marketing tracking code. Only paste code from services you trust. For Google Analytics, use the Google Analytics ID field below instead."
+            fields:
+              - { name: name, label: "Name (for your reference)", widget: string }
+              - { name: code, label: "Code", widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
+              - { name: enabled, label: "Switched on", widget: boolean, default: false }
+              - { name: needsConsent, label: "Only load after cookie consent", widget: boolean, default: true, hint: "Leave on for anything that tracks visitors (analytics, ads, heatmaps, chat widgets that set cookies). Turn off only for scripts that set no cookies." }
+          - { name: analyticsId, label: "Google Analytics ID", widget: string, required: false, hint: "e.g. G-ABC123XYZ. Leave empty to turn off analytics and the cookie banner. Analytics only records visits on the live domain, and only after a visitor accepts cookies." }
+          - { name: cookieBannerText, label: "Cookie banner text", widget: text, required: false, hint: "Shown with Accept / Reject buttons and a link to the cookie policy." }

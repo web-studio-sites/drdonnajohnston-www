@@ -1,0 +1,155 @@
+/*
+  Design tokens: the placeholder look of the starter. Replace the values (not
+  the names) with each site's own colours, fonts and spacing.
+  Single source of truth for colour, type, spacing, radius and shadow values.
+  Component and section stylesheets should reference these variables rather
+  than hard-coding values, so the design stays consistent as new pages are added.
+
+  Breakpoints (referenced in @media queries throughout — CSS custom properties
+  can't be used inside media query conditions, so these are documented here
+  and the literal values are repeated where needed):
+    --bp-tablet: 1080px
+    --bp-mobile: 720px
+    --bp-small:  480px
+*/
+
+:root {
+  /* ---------- Brand ----------
+     Taken from the Critical Thinking Environment logo, which uses six colours:
+     navy #002337, blue #0069B4, teal #0099BC, purple #7A137F, magenta #E6007E
+     and orange #EE7203. Orange is the primary accent, teal the secondary;
+     the gradient runs across the logo's warm side. */
+  --color-pink: #ed7102;
+  --color-purple: #0098bc;
+  --color-teal: #0098bc;
+  --color-blue: #52595f;
+  --color-navy: #363636;
+  --gradient-brand-120: linear-gradient(120deg, var(--color-pink), var(--color-purple));
+  --gradient-brand-135: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 100%);
+  --gradient-brand-160: linear-gradient(160deg, var(--color-pink), var(--color-purple));
+
+  /* ---------- Ink / text — light sections ---------- */
+  --color-ink: #ed7102;           /* headings */
+  --color-ink-secondary: #0098bc; /* secondary heading / dark text */
+  --color-body: #363636;          /* body copy / muted */
+  --color-eyebrow: #0098bc;
+
+  /* ---------- Ink / text — dark sections ---------- */
+  --color-ink-on-dark: #F2F6F8;
+  --color-white: #FFFFFF;
+  --color-body-on-dark: #B6C4CC;
+  --color-body-on-dark-alt: #C9D4DB;
+  --color-accent-pink-on-dark: #FFB36B;
+  --color-accent-purple-on-dark: #6FD0E4;
+  --color-muted-on-dark: #96A5AE;
+  --color-faint-on-dark: #8795A0;
+
+  /* ---------- Links ---------- */
+  --color-link: #ed7102;
+  --color-link-hover: #0098bc;
+
+  /* ---------- Backgrounds ---------- */
+  --bg-white: #FFFFFF;
+  --bg-lilac: #e4e6e7;
+  --bg-testimonials-start: #e3f0f5;
+  --bg-testimonials-end: #e3f0f5;
+  --bg-card-tint: #ffeadb;
+  --bg-dark-1: #52595f;
+  --bg-dark-2: #3f4549;
+  --bg-dark-3: #4a5055;
+  --bg-contact-1: #52595f;
+  --bg-contact-2: #4a5055;
+  --bg-contact-3: #3f4549;
+  --bg-footer: #52595f;
+  --bg-hero-dark: #52595f;
+
+  /* ---------- Borders ---------- */
+  --border-card: #DFE7EB;
+  --border-subtle: #E3EAEE;
+  --border-card-alt: #D7E1E7;
+  --border-testimonial: #D3E0E7;
+  --border-pill: #C6D5DD;
+  --border-dark: rgba(110, 185, 210, 0.26);
+  --border-dark-soft: rgba(110, 185, 210, 0.18);
+
+  /* ---------- Typography ---------- */
+  --font-display: 'Open Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Open Sans', system-ui, -apple-system, sans-serif;
+
+  --text-xs: 0.75rem;     /* 12px — eyebrows, labels */
+  --text-sm: 0.8125rem;   /* 13px */
+  --text-sm-alt: 0.84375rem; /* 13.5px */
+  --text-base: 0.875rem;  /* 14px */
+  --text-base-alt: 0.90625rem; /* 14.5px */
+  --text-md: 0.9375rem;   /* 15px */
+  --text-md-alt: 0.96875rem; /* 15.5px */
+  --text-lg: 1.125rem;    /* 18px, body copy */
+  --text-lg-alt: 1.03125rem; /* 16.5px */
+  --text-xl: 1.0625rem;   /* 17px */
+  --text-xl-alt: 1.125rem; /* 18px */
+  --text-2xl: 1.1875rem;  /* 19px */
+  --text-3xl: 1.25rem;    /* 20px */
+  --text-4xl: 1.375rem;   /* 22px */
+  --text-5xl: 1.5rem;     /* 24px */
+  --text-6xl: 1.625rem;   /* 26px */
+  --text-h2: 1.95rem;     /* 31px, uppercase */
+  --text-h2-sm: 1.75rem;  /* 28px */
+  --text-h1: 1.95rem;     /* 31px, uppercase */
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.08;
+  --leading-normal: 1.3;
+  --leading-relaxed: 1.7;
+  --leading-loose: 1.65;
+
+  --tracking-tightest: -0.032em;
+  --tracking-tighter: -0.026em;
+  --tracking-tight: -0.014em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.10em;
+  --tracking-widest: 0.14em;
+  --tracking-widest-alt: 0.20em;
+  --tracking-loosest: 0.28em;
+
+  /* ---------- Spacing scale ---------- */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-7: 1.75rem;   /* 28px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-14: 3.5rem;   /* 56px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+
+  --section-padding-y: 3.5rem;      /* 56px, as Bricks */
+  --section-padding-y-lg: 3.5rem;   /* 56px */
+  --section-padding-x: 2.5rem;      /* 40px desktop */
+  --section-padding-x-mobile: 1.25rem; /* 20px */
+
+  --container-max: 80rem; /* 1280px */
+
+  /* ---------- Radius ---------- */
+  --radius-sm: 0.625rem;  /* 10px */
+  --radius-md: 0.75rem;   /* 12px */
+  --radius-lg: 1rem;      /* 16px */
+  --radius-xl: 1.125rem;  /* 18px */
+  --radius-2xl: 1.25rem;  /* 20px */
+  --radius-pill: 999px;
+
+  /* ---------- Shadows ---------- */
+  --shadow-menu: 0 28px 64px rgba(22, 33, 59, 0.16);
+  --shadow-card-hover: 0 18px 44px rgba(22, 33, 59, 0.10);
+  --shadow-testimonial: 0 16px 40px rgba(22, 33, 59, 0.07);
+  --shadow-cta: 0 14px 34px rgba(16, 152, 173, 0.24);
+
+  /* ---------- Motion ---------- */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --transition-fast: 180ms ease;
+  --transition-base: 220ms ease;
+}
